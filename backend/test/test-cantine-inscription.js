@@ -5,10 +5,12 @@ const path = require("path");
 /* ================================
    CONFIG
 ================================ */
+require("dotenv").config();
 
 const API_HOST = "localhost";
-const API_PORT = 3000;
+const API_PORT = process.env.PORT || 3000;
 const API_PATH = "/api/cantine/inscription";
+
 
 const DB_PATH = path.join(__dirname, "../db/cantine.db");
 
