@@ -1,416 +1,376 @@
-# Backend – API Cantine (Site de Mairie)
+# API Cantine Scolaire v2.0
 
-## Technologies utilisées
+API REST complète pour la gestion des inscriptions à la cantine scolaire.
 
-* Node.js (>= 18)
-* Express
-* SQLite
-* Cors
-* Dotenv
-* Nodemon (développement)
+## 🚀 Démarrage rapide
 
----
+```bash
+# Installation des dépendances
+npm install
 
-## Arborescence du projet
+# Démarrage en développement (avec hot-reload)
+npm run dev
+
+# Démarrage en production
+npm start
+
+# Tests
+npm test
+```
+
+Le serveur démarre par défaut sur `http://localhost:4000`
+
+## 📊 Architecture de données
+
+### Schéma des entités
+
+```
+┌─────────────────┐
+│     FAMILY      │
+│  (Dossier)      │
+├─────────────────┤
+│ id (UUID)       │
+│ reference_number│
+│ address_line1   │
+│ address_line2   │
+│ postal_code     │
+│ city            │
+│ phone_primary   │
+│ phone_secondary │
+│ email           │
+└────────┬────────┘
+         │
+    ┌────┴────┐
+    │         │
+    ▼         ▼
+┌─────────┐ ┌─────────┐
+│ PARENTS │ │ CHILDREN│
+├─────────┤ ├─────────┤
+│ id      │ │ id      │
+│ family_id│ │ family_id│
+│ first_name│ │ first_name│
+│ last_name│ │ last_name │
+│ email   │ │ birth_date│
+│ phone   │ │ school_name│
+│ role    │ │ class_level│
+│ salary  │ └────┬────┘
+│ coefficient│     │
+└─────────┘  ┌────┴────┐
+             │         │
+             ▼         ▼
+    ┌─────────────┐ ┌─────────────┐
+    │CHILD_ALLERGIES│ │CANTEEN_SCHEDULE│
+    ├─────────────┤ ├─────────────┤
+    │ allergy_id  │ │ day_of_week │
+    │ severity    │ │ is_present  │
+    │ comment     │ └─────────────┘
+    └─────────────┘
+```
+
+## 📋 Endpoints API
+
+### Health Check
+
+```http
+GET /api/health
+```
+
+### 🏠 Familles
+
+| Méthode | Endpoint | Description |
+|---------|----------|-------------|
+| `GET` | `/api/families` | Liste toutes les familles |
+| `GET` | `/api/families/:id` | Récupère une famille par ID |
+| `GET` | `/api/families/:id/full` | Récupère une famille complète (avec parents, enfants, allergies, planning) |
+| `GET` | `/api/families/reference/:ref` | Récupère par numéro de référence |
+| `POST` | `/api/families` | Crée une nouvelle famille |
+| `PUT` | `/api/families/:id` | Met à jour une famille |
+| `DELETE` | `/api/families/:id` | Supprime une famille (et toutes les données associées) |
+
+### 📝 Inscriptions
+
+| Méthode | Endpoint | Description |
+|---------|----------|-------------|
+| `POST` | `/api/inscription` | **Inscription complète** (famille + parents + enfants + allergies + planning) |
+| `GET` | `/api/inscriptions` | Liste toutes les inscriptions |
+| `GET` | `/api/inscriptions/:id` | Récupère une inscription par ID |
+| `GET` | `/api/inscriptions/family/:familyId` | Récupère l'inscription d'une famille |
+| `PUT` | `/api/inscriptions/:id/status` | Met à jour le statut (PENDING, CONFIRMED, CANCELLED) |
+| `DELETE` | `/api/inscriptions/:id` | Supprime une inscription |
+
+### 👶 Enfants
+
+| Méthode | Endpoint | Description |
+|---------|----------|-------------|
+| `GET` | `/api/children/:id` | Récupère un enfant avec ses allergies et planning |
+| `GET` | `/api/children/:id/allergies` | Liste les allergies d'un enfant |
+| `POST` | `/api/children/:id/allergies` | Ajoute une allergie à un enfant |
+| `PUT` | `/api/children/:id/allergies/:allergyId` | Met à jour une allergie |
+| `DELETE` | `/api/children/:id/allergies/:allergyId` | Supprime une allergie |
+| `GET` | `/api/children/:id/schedule` | Récupère le planning cantine |
+| `PUT` | `/api/children/:id/schedule` | Met à jour le planning cantine |
+
+### 🍽️ Allergies (Référentiel)
+
+| Méthode | Endpoint | Description |
+|---------|----------|-------------|
+| `GET` | `/api/allergies` | Liste toutes les allergies disponibles |
+| `POST` | `/api/allergies` | Crée une nouvelle allergie |
+
+### 💰 Tarification
+
+| Méthode | Endpoint | Description |
+|---------|----------|-------------|
+| `GET` | `/api/pricing/tiers` | Récupère les tranches tarifaires |
+| `POST` | `/api/pricing/calculate` | Calcule la tarification (simulation) |
+| `GET` | `/api/pricing/family/:familyId` | Récupère la tarification d'une famille |
+| `POST` | `/api/pricing/family/:familyId/recalculate` | Recalcule et enregistre la tarification |
+| `GET` | `/api/pricing/family/:familyId/history` | Historique des tarifications |
+
+## 📮 Exemple d'inscription complète
+
+### Request
+
+```http
+POST /api/inscription
+Content-Type: application/json
+```
+
+```json
+{
+  "family": {
+    "address_line1": "123 Rue de la Paix",
+    "address_line2": "Bâtiment A",
+    "postal_code": "75001",
+    "city": "Paris",
+    "phone_primary": "0612345678",
+    "phone_secondary": "0687654321",
+    "email": "famille.dupont@example.fr"
+  },
+  "parents": [
+    {
+      "first_name": "Jean",
+      "last_name": "Dupont",
+      "email": "jean.dupont@example.fr",
+      "phone": "0612345678",
+      "role": "PERE",
+      "salary_monthly": 2500
+    },
+    {
+      "first_name": "Marie",
+      "last_name": "Dupont",
+      "email": "marie.dupont@example.fr",
+      "phone": "0687654321",
+      "role": "MERE",
+      "social_coefficient": 1.8
+    }
+  ],
+  "children": [
+    {
+      "info": {
+        "first_name": "Lucas",
+        "last_name": "Dupont",
+        "birth_date": "2016-05-15",
+        "school_name": "École Primaire Victor Hugo",
+        "class_level": "CE2"
+      },
+      "allergies": [
+        {
+          "allergy_id": "allergy_1",
+          "severity": "SEVERE",
+          "comment": "Réaction anaphylactique possible"
+        },
+        {
+          "allergy_id": "allergy_2",
+          "severity": "LEGERE"
+        }
+      ],
+      "canteen_days": ["LUNDI", "MARDI", "JEUDI", "VENDREDI"]
+    },
+    {
+      "info": {
+        "first_name": "Emma",
+        "last_name": "Dupont",
+        "birth_date": "2018-09-22",
+        "school_name": "École Maternelle Les Petits Princes",
+        "class_level": "Grande Section"
+      },
+      "allergies": [],
+      "canteen_days": ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"]
+    }
+  ]
+}
+```
+
+### Response
+
+```json
+{
+  "success": true,
+  "message": "Inscription enregistrée avec succès",
+  "data": {
+    "family_id": "uuid-xxx",
+    "reference_number": "FAM-20260109-ABCD",
+    "confirmation_id": "uuid-yyy",
+    "pricing": {
+      "social_coefficient": 1.8,
+      "price_per_meal": 3.50,
+      "estimated_monthly_price": 126.00,
+      "children_pricing": [
+        {
+          "child_id": "uuid-child1",
+          "first_name": "Lucas",
+          "canteen_days": ["LUNDI", "MARDI", "JEUDI", "VENDREDI"],
+          "meals_per_month": 16,
+          "monthly_price": 56.00
+        },
+        {
+          "child_id": "uuid-child2",
+          "first_name": "Emma",
+          "canteen_days": ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
+          "meals_per_month": 20,
+          "monthly_price": 70.00
+        }
+      ]
+    }
+  }
+}
+```
+
+## 📊 Valeurs acceptées
+
+### Rôles parentaux
+- `PERE`
+- `MERE`
+- `TUTEUR`
+
+### Jours de la semaine
+- `LUNDI`
+- `MARDI`
+- `MERCREDI`
+- `JEUDI`
+- `VENDREDI`
+
+### Sévérité des allergies
+- `LEGERE`
+- `MOYENNE`
+- `SEVERE`
+
+### Statuts d'inscription
+- `PENDING`
+- `CONFIRMED`
+- `CANCELLED`
+
+### Allergies pré-enregistrées
+| ID | Label |
+|----|-------|
+| allergy_1 | Arachides |
+| allergy_2 | Gluten |
+| allergy_3 | Lactose |
+| allergy_4 | Oeufs |
+| allergy_5 | Fruits à coque |
+| allergy_6 | Soja |
+| allergy_7 | Poisson |
+| allergy_8 | Crustacés |
+| allergy_9 | Céleri |
+| allergy_10 | Moutarde |
+| allergy_11 | Sésame |
+| allergy_12 | Sulfites |
+| allergy_13 | Lupin |
+| allergy_14 | Mollusques |
+
+## 💰 Grille tarifaire
+
+| Coefficient social | Prix par repas |
+|-------------------|----------------|
+| 0 - 0.5 | 0.50€ |
+| 0.5 - 1.0 | 1.50€ |
+| 1.0 - 1.5 | 2.50€ |
+| 1.5 - 2.0 | 3.50€ |
+| 2.0 - 2.5 | 4.50€ |
+| > 2.5 | 5.50€ |
+
+Le coefficient social est calculé automatiquement :
+- Si `social_coefficient` est fourni directement → utilisé tel quel
+- Sinon, calculé depuis `salary_monthly` : `coefficient = salaire / 1500`
+
+## 🔒 Validation des données
+
+L'API effectue une validation stricte :
+
+- **Email** : Format valide requis
+- **Téléphone** : Format français (0612345678, +33612345678)
+- **Code postal** : 5 chiffres
+- **Date de naissance** : Format YYYY-MM-DD, enfant < 25 ans
+- **Jours** : Uniquement LUNDI à VENDREDI
+- **Sévérité** : LEGERE, MOYENNE ou SEVERE
+
+## 📁 Structure du projet
 
 ```
 backend/
 ├── db/
-│   ├── cantine.db          # Base de données SQLite (locale)
-│   └── database.js         # Connexion SQLite
+│   ├── database.js          # Connexion SQLite
+│   └── init.js              # Initialisation des tables
 ├── src/
-│   ├── app.js              # Configuration Express
-│   ├── server.js           # Lancement du serveur
-│   ├── routes/
-│   │   └── cantine.routes.js
+│   ├── app.js               # Configuration Express
+│   ├── server.js            # Point d'entrée
 │   ├── controllers/
-│   │   └── cantine.controller.js
-│   └── models/
-│       └── cantine.model.js
-├── test/
-│   └── test-cantine-inscription.js
-├── package.json
-├── package-lock.json
-├── .gitignore
-└── readme.md
+│   │   ├── allergy.controller.js
+│   │   ├── family.controller.js
+│   │   ├── pricing.controller.js
+│   │   └── registration.controller.js
+│   ├── models/
+│   │   ├── allergy.model.js
+│   │   ├── canteen-schedule.model.js
+│   │   ├── child.model.js
+│   │   ├── family.model.js
+│   │   ├── parent.model.js
+│   │   ├── pricing.model.js
+│   │   └── registration.model.js
+│   ├── routes/
+│   │   ├── allergy.routes.js
+│   │   ├── child.routes.js
+│   │   ├── family.routes.js
+│   │   ├── pricing.routes.js
+│   │   └── registration.routes.js
+│   └── utils/
+│       ├── pricing.js       # Calcul tarification
+│       ├── uuid.js          # Génération UUID
+│       └── validators.js    # Validation données
+└── test/
+    └── test-inscription-complete.js
 ```
 
----
+## 🧪 Tests
 
-## Installation
-
-### 1. Prérequis
-
-* Node.js installé (version 18 ou supérieure)
-* NPM installé
-
-Vérification :
+Lancez les tests avec le serveur démarré :
 
 ```bash
-node -v
-npm -v
-```
-
----
-
-### 2. Installation des dépendances
-
-Depuis le dossier `backend` :
-
-```bash
-npm install
-```
-
----
-
-## Lancer le serveur
-
-### Mode développement (recommandé)
-
-```bash
+# Terminal 1 - Démarrer le serveur
 npm run dev
+
+# Terminal 2 - Lancer les tests
+npm test
 ```
 
-Le serveur démarre sur :
+## 📝 Variables d'environnement
 
-```
-http://localhost:4000
-```
+Créez un fichier `.env` à la racine :
 
----
-
-## API – Endpoints disponibles
-
-### Vue d'ensemble
-
-| Méthode | Endpoint | Description |
-|---------|----------|-------------|
-| `POST` | `/api/cantine/inscription` | Créer une nouvelle inscription |
-| `GET` | `/api/cantine` | Récupérer toutes les inscriptions |
-| `GET` | `/api/cantine/:id` | Récupérer une inscription par ID |
-| `PUT` | `/api/cantine/:id` | Modifier une inscription |
-| `DELETE` | `/api/cantine/:id` | Supprimer une inscription |
-
----
-
-### 1. Créer une inscription
-
-**URL**
-
-```
-POST /api/cantine/inscription
+```env
+PORT=4000
+DB_NAME=cantine.db
+NODE_ENV=development
 ```
 
-**Body (JSON)**
+## 🔧 Technologies
 
-```json
-{
-  "nom": "Durand",
-  "prenom": "Léo",
-  "classe": "CE1",
-  "email_parent": "parent.durand@mail.fr",
-  "regime_alimentaire": "sans porc"
-}
-```
+- **Node.js** >= 18
+- **Express** 4.x
+- **SQLite3** (base de données)
+- **CORS** (Cross-Origin Resource Sharing)
 
-**Réponse (succès - 201)**
+## 📜 Licence
 
-```json
-{
-  "message": "Inscription à la cantine enregistrée"
-}
-```
-
-**Erreur (champs manquants - 400)**
-
-```json
-{
-  "message": "Tous les champs sont obligatoires"
-}
-```
-
----
-
-### 2. Récupérer toutes les inscriptions
-
-**URL**
-
-```
-GET /api/cantine
-```
-
-**Réponse (succès - 200)**
-
-```json
-[
-  {
-    "id": 1,
-    "nom": "Durand",
-    "prenom": "Léo",
-    "classe": "CE1",
-    "email_parent": "parent.durand@mail.fr",
-    "regime_alimentaire": "sans porc",
-    "created_at": "2024-01-15 10:30:00"
-  },
-  {
-    "id": 2,
-    "nom": "Martin",
-    "prenom": "Sophie",
-    "classe": "CE2",
-    "email_parent": "parent.martin@mail.fr",
-    "regime_alimentaire": "végétarien",
-    "created_at": "2024-01-16 14:20:00"
-  }
-]
-```
-
-**Réponse (vide - 200)**
-
-```json
-[]
-```
-
----
-
-### 3. Récupérer une inscription par ID
-
-**URL**
-
-```
-GET /api/cantine/:id
-```
-
-**Exemple**
-
-```
-GET /api/cantine/1
-```
-
-**Réponse (succès - 200)**
-
-```json
-{
-  "id": 1,
-  "nom": "Durand",
-  "prenom": "Léo",
-  "classe": "CE1",
-  "email_parent": "parent.durand@mail.fr",
-  "regime_alimentaire": "sans porc",
-  "created_at": "2024-01-15 10:30:00"
-}
-```
-
-**Erreur (non trouvé - 404)**
-
-```json
-{
-  "message": "Inscription non trouvée"
-}
-```
-
----
-
-### 4. Modifier une inscription
-
-**URL**
-
-```
-PUT /api/cantine/:id
-```
-
-**Exemple**
-
-```
-PUT /api/cantine/1
-```
-
-**Body (JSON)**
-
-```json
-{
-  "nom": "Durand",
-  "prenom": "Léo",
-  "classe": "CE2",
-  "email_parent": "parent.durand@mail.fr",
-  "regime_alimentaire": "sans porc"
-}
-```
-
-**Réponse (succès - 200)**
-
-```json
-{
-  "message": "Inscription modifiée avec succès"
-}
-```
-
-**Erreur (champs manquants - 400)**
-
-```json
-{
-  "message": "Tous les champs sont obligatoires"
-}
-```
-
-**Erreur (non trouvé - 404)**
-
-```json
-{
-  "message": "Inscription non trouvée"
-}
-```
-
----
-
-### 5. Supprimer une inscription
-
-**URL**
-
-```
-DELETE /api/cantine/:id
-```
-
-**Exemple**
-
-```
-DELETE /api/cantine/1
-```
-
-**Réponse (succès - 200)**
-
-```json
-{
-  "message": "Inscription supprimée avec succès"
-}
-```
-
-**Erreur (500)**
-
-```json
-{
-  "message": "Erreur lors de la suppression de l'inscription"
-}
-```
-
----
-
-## Structure de la table
-
-La table `cantine_inscriptions` contient les champs suivants :
-
-| Champ | Type | Description |
-|-------|------|-------------|
-| `id` | INTEGER | Identifiant unique (auto-incrémenté) |
-| `nom` | TEXT | Nom de l'enfant (obligatoire) |
-| `prenom` | TEXT | Prénom de l'enfant (obligatoire) |
-| `classe` | TEXT | Classe de l'enfant (obligatoire) |
-| `email_parent` | TEXT | Email du parent (obligatoire) |
-| `regime_alimentaire` | TEXT | Régime alimentaire (obligatoire) |
-| `created_at` | DATETIME | Date de création (automatique) |
-
----
-
-## Base de données
-
-* Type : SQLite
-* Fichier : `backend/db/cantine.db`
-* Table : `cantine_inscriptions`
-
-Les fichiers `.db` sont ignorés par Git (`.gitignore`).
-
----
-
-## Tests
-
-Un script de test est fourni pour :
-
-* envoyer une inscription à l'API
-* afficher le contenu complet de la base de données
-
-### Lancer le test
-
-1. Lancer le serveur dans un terminal :
-
-```bash
-npm run dev
-```
-
-2. Dans un autre terminal :
-
-```bash
-node test/test-cantine-inscription.js
-```
-
-### Résultat attendu
-
-* statut HTTP
-* message de succès ou d'erreur
-* affichage complet des inscriptions avec `console.table`
-
----
-
-## Exemples d'utilisation avec cURL
-
-### Créer une inscription
-
-```bash
-curl -X POST http://localhost:4000/api/cantine/inscription \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nom": "Durand",
-    "prenom": "Léo",
-    "classe": "CE1",
-    "email_parent": "parent.durand@mail.fr",
-    "regime_alimentaire": "sans porc"
-  }'
-```
-
-### Récupérer toutes les inscriptions
-
-```bash
-curl http://localhost:4000/api/cantine
-```
-
-### Récupérer une inscription par ID
-
-```bash
-curl http://localhost:4000/api/cantine/1
-```
-
-### Modifier une inscription
-
-```bash
-curl -X PUT http://localhost:4000/api/cantine/1 \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nom": "Durand",
-    "prenom": "Léo",
-    "classe": "CE2",
-    "email_parent": "parent.durand@mail.fr",
-    "regime_alimentaire": "sans porc"
-  }'
-```
-
-### Supprimer une inscription
-
-```bash
-curl -X DELETE http://localhost:4000/api/cantine/1
-```
-
----
-
-## Intégration avec le Frontend
-
-Ce backend est conçu pour fonctionner avec le frontend Next.js disponible dans le dossier `../frontend`.
-
-Le frontend utilise ces endpoints pour :
-* Afficher toutes les inscriptions dans un tableau d'administration
-* Modifier les inscriptions via un formulaire
-* Supprimer les inscriptions avec confirmation
-
-Pour accéder au panel d'administration :
-1. Démarrer le backend : `npm run dev` (port 4000)
-2. Démarrer le frontend : `cd ../frontend && npm run dev` (port 3000)
-3. Ouvrir : `http://localhost:3000/admin`
-
----
+MIT
