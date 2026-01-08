@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+/* --- CONFIGURATION DU THÈME (COULEURS & POLICES) --- */
+@theme {
+  /* Vos couleurs personnalisées */
+  --color-bouilly-green: #2F5233;
+  --color-bouilly-blue: #212E40;  /* Le Bleu de la charte pour le footer */
+  --color-bouilly-darkGreen: #1A3320;
+  --color-bouilly-lightGreen: #4A7A51;
+  --color-bouilly-gold: #C1A663;
+  --color-bouilly-cream: #F4F1EA;
+
+  /* Vos polices */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-title: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-script: var(--font-great-vibes), cursive;
+}
+
+/* --- ANIMATIONS PERSONNALISÉES --- */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+/* --- STYLES GLOBAUX --- */
+/* Pour s'assurer que le fond du site est bien crème par défaut */
+body {
+  background-color: var(--color-bouilly-cream);
+  color: var(--color-bouilly-green);
+}
