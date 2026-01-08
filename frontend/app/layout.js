@@ -1,0 +1,30 @@
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata = {
+  title: "Panel d'Administration - Cantine",
+  description: "Gestion des inscriptions à la cantine scolaire",
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="fr" suppressHydrationWarning className="dark">
+      <body
+        suppressHydrationWarning
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        {children}
+      </body>
+    </html>
+  );
+}
