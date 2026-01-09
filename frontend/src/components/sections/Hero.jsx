@@ -141,8 +141,8 @@ export default function Hero() {
            className="absolute  left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
         >
-            <span className="text-[10px] uppercase tracking-widest text-bouilly-green/50">Découvrir</span>
-            <ChevronDown className="text-bouilly-gold animate-bounce" size={20} />
+            <span className="text-[12px] uppercase tracking-widest text-bouilly-green/50">Découvrir</span>
+            <ChevronDown className="text-bouilly-gold animate-bounce" size={25} />
         </motion.div>
 
       </div>
