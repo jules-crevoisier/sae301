@@ -1,0 +1,14 @@
+[00:00:04.999] Server  LOG     ✓ Ready in 4.6s
+[00:00:08.080] Server  LOG     ○ Compiling / ...
+[00:02:20.223] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jeremy/Documents/GitHub/sae301/frontend/src/app'
+[00:02:20.236] Server  ERROR   ⨯ "unhandledRejection:" Error: ENOENT: no such file or directory, scandir '/Users/jeremy/Documents/GitHub/sae301/frontend/src/app'
+[00:02:20.242] Server  ERROR   ⨯ "unhandledRejection: " Error: ENOENT: no such file or directory, scandir '/Users/jeremy/Documents/GitHub/sae301/frontend/src/app'
+[00:02:20.266] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jeremy/Documents/GitHub/sae301/frontend/src/app'
+[00:02:20.269] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jeremy/Documents/GitHub/sae301/frontend/src/app'
+[00:02:20.382] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jeremy/Documents/GitHub/sae301/frontend/src/app'
+[00:02:20.386] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jeremy/Documents/GitHub/sae301/frontend/src/app'
+[00:02:20.401] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jeremy/Documents/GitHub/sae301/frontend/src/app'
+[00:02:20.406] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jeremy/Documents/GitHub/sae301/frontend/src/app'
+[00:02:20.430] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jeremy/Documents/GitHub/sae301/frontend/src/app'
+[00:02:20.432] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jeremy/Documents/GitHub/sae301/frontend/src/app'
+[00:02:20.476] Server  LOG     ✓ Compiled in 502ms
