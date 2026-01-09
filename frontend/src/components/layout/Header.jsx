@@ -6,6 +6,7 @@ import { Menu as MenuIcon, X, Search, ChevronDown, ArrowRight } from 'lucide-rea
 const navLinks = [
   { name: "Accueil", href: "/", id: "home" }, 
   { name: "Mairie & Démarches", href: "/mairie", id: "mairie" }, 
+  { name: "Inscription Cantine", href: "/inscription-cantine", id: "cantine" },
   { name: "Loisirs & Vie Locale", href: "/loisirs", id: "loisirs" },
   { name: "Découvrir la Commune", href: "/decouvrir", id: "decouvrir" },
   { name: "Actualités", href: "/actualites", id: "actus" },
@@ -109,9 +110,16 @@ export default function Header() {
                     <a
                       key={link.id}
                       href={link.href}
-                      onClick={(e) => { e.preventDefault(); setActiveTab(link.id); }}
+                      onClick={(e) => { 
+                        if (link.href !== "/inscription-cantine") {
+                          e.preventDefault(); 
+                        }
+                        setActiveTab(link.id); 
+                      }}
                       onMouseEnter={() => setHoveredTab(link.id)}
-                      className="relative px-4 py-1.5 text-sm font-medium transition-colors outline-none"
+                      className={`relative px-4 py-1.5 text-sm font-medium transition-colors outline-none ${
+                        link.id === "cantine" ? "bg-bouilly-gold/10 text-bouilly-gold font-semibold rounded-full" : ""
+                      }`}
                       style={{ WebkitTapHighlightColor: "transparent" }}
                     >
                       {/* 1. INDICATEUR ACTIF (Blanc pur + Ombre douce) */}
@@ -207,8 +215,12 @@ export default function Header() {
                       <motion.a 
                         key={link.name} 
                         variants={linkVars} 
-                        href="#" 
-                        className="text-2xl font-title font-medium text-bouilly-darkGreen py-3 border-b border-gray-200/50 flex justify-between items-center group active:scale-95 transition-transform"
+                        href={link.href}
+                        className={`text-2xl font-title font-medium py-3 border-b border-gray-200/50 flex justify-between items-center group active:scale-95 transition-transform ${
+                          link.id === "cantine" 
+                            ? "text-bouilly-gold font-semibold" 
+                            : "text-bouilly-darkGreen"
+                        }`}
                       >
                          {link.name}
                          <ArrowRight size={20} className="text-gray-300 group-hover:text-bouilly-gold group-hover:translate-x-2 transition-all" />
