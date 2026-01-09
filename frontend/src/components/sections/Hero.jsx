@@ -84,12 +84,12 @@ export default function Hero() {
                transition={{ duration: 1, delay: 0.2 }}
                className="absolute top-0 right-10 w-72 h-[550px] rounded-t-[10rem] rounded-b-[2rem] overflow-hidden shadow-2xl z-10 border-4 border-white"
             >
-               <img 
-                 // Remplacez par une photo de la Mairie, de l'église ou d'une rue typique
-                 src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=85&w=800&auto=format&fit=crop" 
-                 alt="Architecture Bouilly" 
-                 className="w-full h-full object-cover hover:scale-110 transition-transform duration-[2s]"
-               />
+              <img 
+                src="/images/BouillyMairie.jpg" 
+                alt="Architecture Bouilly" 
+                // AJOUT DE: object-[65%_center] (joue avec le % pour décaler gauche/droite)
+                className="w-full h-full object-cover object-[60%_center] hover:scale-110 transition-transform duration-[2s]"
+              />
             </motion.div>
 
             {/* IMAGE 2 : SECONDAIRE (Horizontale - Nature/Vie) */}
