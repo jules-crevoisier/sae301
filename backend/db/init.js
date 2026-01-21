@@ -164,6 +164,23 @@ const initDatabase = () => {
           confirmed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
           FOREIGN KEY (family_id) REFERENCES families(id) ON DELETE CASCADE
         )
+      `);
+
+      // =============================================
+      // TABLE: news (Actualités)
+      // =============================================
+      db.run(`
+        CREATE TABLE IF NOT EXISTS news (
+          id TEXT PRIMARY KEY,
+          title TEXT NOT NULL,
+          category TEXT NOT NULL,
+          content TEXT,
+          image_url TEXT,
+          date TEXT NOT NULL,
+          is_featured INTEGER DEFAULT 0,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
       `, (err) => {
         if (err) {
           console.error("Erreur initialisation BDD:", err.message);
@@ -184,6 +201,8 @@ const initDatabase = () => {
       db.run(`CREATE INDEX IF NOT EXISTS idx_pricing_family ON pricing_results(family_id)`);
       db.run(`CREATE INDEX IF NOT EXISTS idx_families_reference ON families(reference_number)`);
       db.run(`CREATE INDEX IF NOT EXISTS idx_families_email ON families(email)`);
+      db.run(`CREATE INDEX IF NOT EXISTS idx_news_date ON news(date)`);
+      db.run(`CREATE INDEX IF NOT EXISTS idx_news_featured ON news(is_featured)`);
     });
   });
 };
