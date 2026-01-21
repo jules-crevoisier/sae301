@@ -1,7 +1,9 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link'; // IMPORT ESSENTIEL
+import { usePathname } from 'next/navigation'; // IMPORT ESSENTIEL
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu as MenuIcon, X, Search, ChevronDown, ArrowRight } from 'lucide-react';
+import { Menu as MenuIcon, X, Search, ArrowRight } from 'lucide-react';
 
 const navLinks = [
   { name: "Accueil", href: "/", id: "home" }, 
@@ -19,7 +21,8 @@ export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchInputRef = useRef(null);
 
-  const [activeTab, setActiveTab] = useState("home");
+  // Utilisation du hook Next.js pour détecter la page active
+  const pathname = usePathname();
   const [hoveredTab, setHoveredTab] = useState(null);
 
   useEffect(() => {
@@ -33,6 +36,11 @@ export default function Header() {
       setTimeout(() => searchInputRef.current.focus(), 300);
     }
   }, [isSearchOpen]);
+
+  // Fermer le menu mobile quand on change de page
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   // VARIANTS ANIMATIONS
   const mobileMenuVars = {
@@ -64,9 +72,11 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-12 relative z-50">
           
           {/* --- BLOC IDENTITÉ (Interaction Or au survol) --- */}
-          {/* J'utilise 'group' ici : survoler l'image OU le texte déclenche l'effet */}
-          <div className={`flex items-center gap-3 group cursor-pointer ${isSearchOpen ? 'hidden md:flex' : 'flex'}`}>
-            
+          {/* Modifié en <Link> pour permettre le retour à l'accueil */}
+          <Link 
+            href="/" 
+            className={`flex items-center gap-3 group cursor-pointer ${isSearchOpen ? 'hidden md:flex' : 'flex'}`}
+          >
             {/* L'Image : Zoom + légère rotation au survol */}
             <div className="relative w-9 h-11 transition-transform duration-500 ease-out group-hover:scale-110 group-hover:rotate-3">
                 <img src="/images/blason.png" alt="Blason" className="w-full h-full object-contain drop-shadow-sm" />
@@ -80,7 +90,7 @@ export default function Header() {
                 Bouilly
               </span>
             </div>
-          </div>
+          </Link>
 
           {/* --- DESKTOP NAVIGATION --- */}
           <div className="hidden lg:flex flex-1 justify-center items-center px-4">
@@ -106,45 +116,42 @@ export default function Header() {
                     className="flex items-center bg-white/50 p-1.5 rounded-full border border-white/20 backdrop-blur-md shadow-sm"
                     onMouseLeave={() => setHoveredTab(null)}
                 >
-                  {navLinks.map((link) => (
-                    <a
-                      key={link.id}
-                      href={link.href}
-                      onClick={(e) => { 
-                        if (link.href !== "/inscription-cantine") {
-                          e.preventDefault(); 
-                        }
-                        setActiveTab(link.id); 
-                      }}
-                      onMouseEnter={() => setHoveredTab(link.id)}
-                      className={`relative px-4 py-1.5 text-sm font-medium transition-colors outline-none ${
-                        link.id === "cantine" ? "bg-bouilly-gold/10 text-bouilly-gold font-semibold rounded-full" : ""
-                      }`}
-                      style={{ WebkitTapHighlightColor: "transparent" }}
-                    >
-                      {/* 1. INDICATEUR ACTIF (Blanc pur + Ombre douce) */}
-                      {activeTab === link.id && (
-                        <motion.span
-                          layoutId="active-pill"
-                          className="absolute inset-0 bg-white rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100 z-0"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                        />
-                      )}
+                  {navLinks.map((link) => {
+                    // Vérification si le lien est actif
+                    const isActive = pathname === link.href;
+                    
+                    return (
+                      <Link
+                        key={link.id}
+                        href={link.href}
+                        onMouseEnter={() => setHoveredTab(link.id)}
+                        className={`relative px-4 py-1.5 text-sm font-medium transition-colors outline-none`}
+                        style={{ WebkitTapHighlightColor: "transparent" }}
+                      >
+                        {/* 1. INDICATEUR ACTIF (Blanc pur + Ombre douce) */}
+                        {isActive && (
+                          <motion.span
+                            layoutId="active-pill"
+                            className="absolute inset-0 bg-white rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100 z-0"
+                            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                          />
+                        )}
 
-                      {/* 2. LE FANTÔME (Vert très pâle au lieu de gris) */}
-                      {hoveredTab === link.id && activeTab !== link.id && (
-                        <motion.span
-                          layoutId="hover-pill"
-                          className="absolute inset-0 bg-bouilly-green/5 rounded-full z-0"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
-                        />
-                      )}
+                        {/* 2. LE FANTÔME (Vert très pâle au lieu de gris) */}
+                        {hoveredTab === link.id && !isActive && (
+                          <motion.span
+                            layoutId="hover-pill"
+                            className="absolute inset-0 bg-bouilly-green/5 rounded-full z-0"
+                            transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
+                          />
+                        )}
 
-                      <span className={`relative z-10 transition-colors duration-200 ${activeTab === link.id ? "text-bouilly-green font-bold" : "text-gray-600 hover:text-bouilly-darkGreen"}`}>
-                        {link.name}
-                      </span>
-                    </a>
-                  ))}
+                        <span className={`relative z-10 transition-colors duration-200 ${isActive ? "text-bouilly-green font-bold" : "text-gray-600 hover:text-bouilly-darkGreen"}`}>
+                          {link.name}
+                        </span>
+                      </Link>
+                    );
+                  })}
                 </nav>
               )}
             </AnimatePresence>
@@ -199,7 +206,7 @@ export default function Header() {
             className="fixed inset-0 z-40 bg-bouilly-cream/98 backdrop-blur-3xl flex flex-col pt-24 px-6"
           >
              <div className="absolute bottom-0 right-0 p-8 opacity-[0.03] pointer-events-none">
-                <img src="/images/blason.png" className="w-80 h-80 object-contain" />
+                <img src="/images/blason.png" alt="Blason fond" className="w-80 h-80 object-contain" />
              </div>
 
              <motion.div variants={containerVars} initial="initial" animate="open" className="flex flex-col space-y-6 max-w-md mx-auto w-full relative z-10">
@@ -212,19 +219,15 @@ export default function Header() {
 
                 <nav className="flex flex-col space-y-2">
                    {navLinks.map((link) => (
-                      <motion.a 
-                        key={link.name} 
-                        variants={linkVars} 
-                        href={link.href}
-                        className={`text-2xl font-title font-medium py-3 border-b border-gray-200/50 flex justify-between items-center group active:scale-95 transition-transform ${
-                          link.id === "cantine" 
-                            ? "text-bouilly-gold font-semibold" 
-                            : "text-bouilly-darkGreen"
-                        }`}
-                      >
-                         {link.name}
-                         <ArrowRight size={20} className="text-gray-300 group-hover:text-bouilly-gold group-hover:translate-x-2 transition-all" />
-                      </motion.a>
+                      <motion.div key={link.name} variants={linkVars}>
+                        <Link 
+                            href={link.href}
+                            className={`text-2xl font-title font-medium py-3 border-b border-gray-200/50 flex justify-between items-center group active:scale-95 transition-transform `}
+                        >
+                             {link.name}
+                             <ArrowRight size={20} className="text-gray-300 group-hover:text-bouilly-gold group-hover:translate-x-2 transition-all" />
+                        </Link>
+                      </motion.div>
                    ))}
                 </nav>
              </motion.div>
