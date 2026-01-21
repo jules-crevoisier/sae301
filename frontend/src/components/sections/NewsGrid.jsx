@@ -3,9 +3,14 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
+
+// --- MISE À JOUR DES IMPORTS ICI ---
+// On va chercher les composants dans le dossier news
 import NewsList from '@/components/news/NewsList';
-import { useNews } from '@/components/news/useNews';
-import { DEFAULT_IMAGE } from '@/components/news/newsConstants';
+// On va chercher le hook dans le dossier hooks
+import { useNews } from '@/hooks/useNews';
+// On va chercher les constantes dans le dossier utils
+import { DEFAULT_IMAGE } from '@/utils/newsConstants'; 
 
 // Données par défaut en cas d'erreur de chargement
 const defaultItems = [
@@ -21,9 +26,10 @@ const defaultItems = [
 
 export default function NewsGrid() {
   const [isExpanded, setIsExpanded] = useState(false);
+  
+  // Utilisation du Hook depuis son nouvel emplacement
   const { news, loading } = useNews('all', 8);
 
-  // Utiliser les données par défaut si aucune actualité n'est disponible
   const allItems = (news.length > 0 ? news : defaultItems).map(item => ({
     ...item,
     img: item.image_url || item.img || DEFAULT_IMAGE

@@ -1,12 +1,11 @@
 "use client";
-import { motion } from 'framer-motion';
-import { ArrowUpRight, Clock } from 'lucide-react';
-import Link from 'next/link';
-import { formatDateShort, DEFAULT_IMAGE } from './newsUtils';
-
+import { motion } from "framer-motion";
+import { ArrowUpRight, Clock } from "lucide-react";
+import Link from "next/link";
+import { formatDateShort, DEFAULT_IMAGE } from '@/utils/newsUtils'; // <--- Import corrigé
 export default function NewsCard({ item, index = 0 }) {
-  const dateFormatted = item.date ? formatDateShort(item.date) : 'En cours';
-  const dateParts = dateFormatted.split(' ');
+  const dateFormatted = item.date ? formatDateShort(item.date) : "En cours";
+  const dateParts = dateFormatted.split(" ");
 
   return (
     <motion.div
@@ -20,17 +19,17 @@ export default function NewsCard({ item, index = 0 }) {
       <Link href="/actualites" className="flex flex-col gap-4">
         {/* Carte Image */}
         <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-md group-hover:shadow-xl transition-all duration-500 border border-white/50">
-          <img 
-            src={item.image_url || item.img || DEFAULT_IMAGE} 
-            alt={item.title} 
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+          <img
+            src={item.image_url || item.img || DEFAULT_IMAGE}
+            alt={item.title}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
           <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-3 py-2 rounded-lg shadow-sm text-center min-w-[60px]">
             <span className="block text-xs font-bold text-gray-400 uppercase">
-              {dateParts[1] || ''}
+              {dateParts[1] || ""}
             </span>
             <span className="block text-lg font-title font-bold text-bouilly-green leading-none">
-              {dateParts[0] || ''}
+              {dateParts[0] || ""}
             </span>
           </div>
           <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/60 to-transparent">
@@ -53,7 +52,10 @@ export default function NewsCard({ item, index = 0 }) {
           <div className="flex items-center gap-2 mt-2 text-xs text-gray-500 font-medium">
             <Clock size={14} />
             <span>Lire l'article</span>
-            <ArrowUpRight size={14} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-bouilly-gold"/>
+            <ArrowUpRight
+              size={14}
+              className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-bouilly-gold"
+            />
           </div>
         </div>
       </Link>

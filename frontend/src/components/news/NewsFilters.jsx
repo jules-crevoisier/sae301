@@ -1,5 +1,5 @@
 "use client";
-import { NEWS_CATEGORIES_WITH_ALL } from './newsConstants';
+import { NEWS_CATEGORIES_WITH_ALL } from "../../utils/newsConstants";
 
 export default function NewsFilters({ selectedCategory, onCategoryChange }) {
   return (
@@ -12,11 +12,11 @@ export default function NewsFilters({ selectedCategory, onCategoryChange }) {
               onClick={() => onCategoryChange(category)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 selectedCategory === category
-                  ? 'bg-bouilly-green text-white shadow-md'
-                  : 'bg-bouilly-cream text-bouilly-darkGreen hover:bg-bouilly-green/10'
+                  ? "bg-bouilly-green text-white shadow-md"
+                  : "bg-bouilly-cream text-bouilly-darkGreen hover:bg-bouilly-green/10"
               }`}
             >
-              {category === 'all' ? 'Toutes' : category}
+              {category === "all" ? "Toutes" : category}
             </button>
           ))}
         </div>
