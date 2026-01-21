@@ -9,7 +9,7 @@ import AdminSearchBar from '@/components/admin/AdminSearchBar';
 import AdminStats from '@/components/admin/AdminStats';
 import AdminRegistrationCard from '@/components/admin/AdminRegistrationCard';
 import AdminLogin from '@/components/admin/AdminLogin';
-import { Users, AlertCircle, Plus, LogOut, RefreshCw } from 'lucide-react';
+import { Users, AlertCircle, Plus, LogOut, RefreshCw, FileText } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminPage() {
@@ -300,6 +300,24 @@ export default function AdminPage() {
                   <span className="hidden md:inline">Déconnexion</span>
                 </button>
               </div>
+            </div>
+
+            {/* Navigation Admin */}
+            <div className="flex items-center gap-3 mb-6">
+              <Link
+                href="/admin"
+                className="px-4 py-2 bg-bouilly-green text-white rounded-lg hover:bg-bouilly-darkGreen transition-colors flex items-center gap-2"
+              >
+                <Users size={18} />
+                <span>Inscriptions</span>
+              </Link>
+              <Link
+                href="/admin/actualites"
+                className="px-4 py-2 bg-white border-2 border-bouilly-green text-bouilly-green rounded-lg hover:bg-bouilly-green/10 transition-colors flex items-center gap-2"
+              >
+                <FileText size={18} />
+                <span>Actualités</span>
+              </Link>
             </div>
           </motion.div>
 
