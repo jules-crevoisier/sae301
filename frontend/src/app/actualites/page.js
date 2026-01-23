@@ -6,7 +6,7 @@ import NewsHero from '@/components/news/NewsHero';
 import NewsFilters from '@/components/news/NewsFilters';
 import NewsList from '@/components/news/NewsList';
 import NewsPagination from '@/components/news/NewsPagination';
-import { useNews } from '@/components/news/useNews';
+import { useNews } from '@/hooks/useNews';
 
 const ITEMS_PER_PAGE = 8;
 

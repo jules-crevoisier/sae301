@@ -1,8 +1,14 @@
 "use client";
-import { Save, Image as ImageIcon } from 'lucide-react';
-import { NEWS_CATEGORIES } from './newsConstants';
+import { Save, Image as ImageIcon } from "lucide-react";
+import { NEWS_CATEGORIES } from "@/utils/newsConstants";
 
-export default function NewsForm({ formData, onChange, onSubmit, onCancel, isEditing }) {
+export default function NewsForm({
+  formData,
+  onChange,
+  onSubmit,
+  onCancel,
+  isEditing,
+}) {
   return (
     <form onSubmit={onSubmit} className="p-6 space-y-6">
       {/* Titre */}
@@ -29,11 +35,15 @@ export default function NewsForm({ formData, onChange, onSubmit, onCancel, isEdi
           <select
             required
             value={formData.category}
-            onChange={(e) => onChange({ ...formData, category: e.target.value })}
+            onChange={(e) =>
+              onChange({ ...formData, category: e.target.value })
+            }
             className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-bouilly-gold"
           >
-            {NEWS_CATEGORIES.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
+            {NEWS_CATEGORIES.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
             ))}
           </select>
         </div>
@@ -61,7 +71,9 @@ export default function NewsForm({ formData, onChange, onSubmit, onCancel, isEdi
           <input
             type="url"
             value={formData.image_url}
-            onChange={(e) => onChange({ ...formData, image_url: e.target.value })}
+            onChange={(e) =>
+              onChange({ ...formData, image_url: e.target.value })
+            }
             className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-bouilly-gold"
             placeholder="https://example.com/image.jpg"
           />
@@ -72,7 +84,7 @@ export default function NewsForm({ formData, onChange, onSubmit, onCancel, isEdi
             alt="Preview"
             className="mt-2 w-full h-48 object-cover rounded-lg border border-gray-200"
             onError={(e) => {
-              e.target.style.display = 'none';
+              e.target.style.display = "none";
             }}
           />
         )}
@@ -98,7 +110,9 @@ export default function NewsForm({ formData, onChange, onSubmit, onCancel, isEdi
           type="checkbox"
           id="featured"
           checked={formData.is_featured}
-          onChange={(e) => onChange({ ...formData, is_featured: e.target.checked })}
+          onChange={(e) =>
+            onChange({ ...formData, is_featured: e.target.checked })
+          }
           className="w-4 h-4 text-bouilly-gold focus:ring-bouilly-gold rounded"
         />
         <label htmlFor="featured" className="text-sm font-medium text-gray-700">
@@ -120,7 +134,7 @@ export default function NewsForm({ formData, onChange, onSubmit, onCancel, isEdi
           className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-bouilly-green text-white rounded-lg hover:bg-bouilly-darkGreen transition-colors"
         >
           <Save size={18} />
-          {isEditing ? 'Enregistrer' : 'Créer'}
+          {isEditing ? "Enregistrer" : "Créer"}
         </button>
       </div>
     </form>

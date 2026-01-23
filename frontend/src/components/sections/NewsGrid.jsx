@@ -3,9 +3,14 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
+
+// --- MISE À JOUR DES IMPORTS ICI ---
+// On va chercher les composants dans le dossier news
 import NewsList from '@/components/news/NewsList';
-import { useNews } from '@/components/news/useNews';
-import { DEFAULT_IMAGE } from '@/components/news/newsConstants';
+// On va chercher le hook dans le dossier hooks
+import { useNews } from '@/hooks/useNews';
+// On va chercher les constantes dans le dossier utils
+import { DEFAULT_IMAGE } from '@/utils/newsConstants'; 
 
 // Données par défaut en cas d'erreur de chargement
 const defaultItems = [
@@ -21,9 +26,10 @@ const defaultItems = [
 
 export default function NewsGrid() {
   const [isExpanded, setIsExpanded] = useState(false);
+  
+  // Utilisation du Hook depuis son nouvel emplacement
   const { news, loading } = useNews('all', 8);
 
-  // Utiliser les données par défaut si aucune actualité n'est disponible
   const allItems = (news.length > 0 ? news : defaultItems).map(item => ({
     ...item,
     img: item.image_url || item.img || DEFAULT_IMAGE
@@ -32,7 +38,7 @@ export default function NewsGrid() {
   const visibleItems = isExpanded ? allItems : allItems.slice(0, 4);
 
   return (
-    <section className="relative z-20 pb-24 bg-bouilly-cream rounded-t-[3rem] shadow-[0_-20px_60px_rgba(0,0,0,0.03)] overflow-hidden transition-all duration-500">
+    <section className="relative z-20 pb-24 bg-bouilly-cream shadow-[0_-20px_60px_rgba(0,0,0,0.03)] overflow-hidden transition-all duration-500">
       
       {/* Texture de fond */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
@@ -63,27 +69,15 @@ export default function NewsGrid() {
 
         {/* --- BOUTON D'EXPANSION --- */}
         <div className="flex justify-center mt-16">
-            {isExpanded ? (
-              <button 
-                  onClick={() => setIsExpanded(false)}
-                  className="group flex items-center gap-2 px-6 py-3 rounded-full border border-bouilly-green/20 text-bouilly-green hover:bg-bouilly-green hover:text-white transition-all duration-300 bg-transparent"
-              >
-                  <span className="font-title font-bold text-xs uppercase tracking-widest">
-                      Voir moins
-                  </span>
-                  <ChevronUp size={16} className="group-hover:-translate-y-1 transition-transform" />
-              </button>
-            ) : (
               <Link 
                   href="/actualites"
                   className="group flex items-center gap-2 px-6 py-3 rounded-full border border-bouilly-green/20 text-bouilly-green hover:bg-bouilly-green hover:text-white transition-all duration-300 bg-transparent"
               >
                   <span className="font-title font-bold text-xs uppercase tracking-widest">
-                      Toutes les actus
+                      Voir toutes les actualités
                   </span>
-                  <ChevronDown size={16} className="group-hover:translate-y-1 transition-transform" />
+                  <ChevronUp size={16} className="rotate-45 group-hover:rotate-90 transition-transform" />
               </Link>
-            )}
         </div>
 
       </div>

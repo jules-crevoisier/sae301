@@ -1,7 +1,11 @@
 "use client";
-import { motion } from 'framer-motion';
-import { Edit, Trash2, Calendar } from 'lucide-react';
-import { formatDateLong, isFeatured, DEFAULT_IMAGE } from './newsUtils';
+import { motion } from "framer-motion";
+import { Edit, Trash2, Calendar } from "lucide-react";
+import {
+  formatDateLong,
+  isFeatured,
+  DEFAULT_IMAGE,
+} from "@/utils/newsUtils";
 
 export default function NewsAdminCard({ item, onEdit, onDelete }) {
   return (
