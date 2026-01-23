@@ -85,7 +85,7 @@ export default function ParentsStep({ parents, actions, errors }) {
                   <Euro size={16} />
                   <span>Information Tarifaire</span>
                </div>
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormInput
                     label="Salaire Mensuel"
                     type="number"
