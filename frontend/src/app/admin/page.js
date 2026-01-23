@@ -9,7 +9,7 @@ import AdminSearchBar from '@/components/admin/AdminSearchBar';
 import AdminStats from '@/components/admin/AdminStats';
 import AdminRegistrationCard from '@/components/admin/AdminRegistrationCard';
 import AdminLogin from '@/components/admin/AdminLogin';
-import { Users, AlertCircle, Plus, LogOut, RefreshCw, FileText } from 'lucide-react';
+import { Users, AlertCircle, Plus, LogOut, RefreshCw, FileText, Calendar } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminPage() {
@@ -317,6 +317,13 @@ export default function AdminPage() {
               >
                 <FileText size={18} />
                 <span>Actualités</span>
+              </Link>
+              <Link
+                href="/admin/evenements"
+                className="px-4 py-2 bg-white border-2 border-bouilly-green text-bouilly-green rounded-lg hover:bg-bouilly-green/10 transition-colors flex items-center gap-2"
+              >
+                <Calendar size={18} />
+                <span>Événements</span>
               </Link>
             </div>
           </motion.div>

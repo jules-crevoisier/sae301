@@ -181,6 +181,23 @@ const initDatabase = () => {
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
           updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
+      `);
+
+      // =============================================
+      // TABLE: events (Événements de la mairie)
+      // =============================================
+      db.run(`
+        CREATE TABLE IF NOT EXISTS events (
+          id TEXT PRIMARY KEY,
+          title TEXT NOT NULL,
+          description TEXT,
+          start_date TEXT NOT NULL,
+          end_date TEXT,
+          location TEXT,
+          category TEXT DEFAULT 'GENERAL',
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
       `, (err) => {
         if (err) {
           console.error("Erreur initialisation BDD:", err.message);
@@ -203,6 +220,8 @@ const initDatabase = () => {
       db.run(`CREATE INDEX IF NOT EXISTS idx_families_email ON families(email)`);
       db.run(`CREATE INDEX IF NOT EXISTS idx_news_date ON news(date)`);
       db.run(`CREATE INDEX IF NOT EXISTS idx_news_featured ON news(is_featured)`);
+      db.run(`CREATE INDEX IF NOT EXISTS idx_events_start_date ON events(start_date)`);
+      db.run(`CREATE INDEX IF NOT EXISTS idx_events_category ON events(category)`);
     });
   });
 };
