@@ -10,7 +10,7 @@ const navLinks = [
   { name: "Mairie & Démarches", href: "/mairie", id: "mairie" }, 
   { name: "Inscription Cantine", href: "/inscription-cantine", id: "cantine" },
   { name: "Loisirs & Vie Locale", href: "/loisirs", id: "loisirs" },
-  { name: "Découvrir la Commune", href: "/decouvrir", id: "decouvrir" },
+  { name: "Découvrir la Commune", href: "/commune", id: "decouvrir" },
   { name: "Actualités", href: "/actualites", id: "actus" },
 ];
 
