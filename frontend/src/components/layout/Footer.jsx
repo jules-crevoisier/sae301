@@ -58,7 +58,7 @@ export default function Footer() {
                 </li>
                 <li className="flex items-center gap-3 group cursor-pointer">
                    <Mail className="text-bouilly-gold shrink-0 group-hover:scale-110 transition-transform" size={18} />
-                   <a href="mailto:mairie.bouilly@wanadoo.fr" className="group-hover:text-white transition-colors underline decoration-bouilly-gold/30 underline-offset-4 hover:decoration-bouilly-gold">
+                   <a href="/contact" className="group-hover:text-white transition-colors underline decoration-bouilly-gold/30 underline-offset-4 hover:decoration-bouilly-gold">
                       Contact Mairie
                    </a>
                 </li>

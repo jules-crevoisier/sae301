@@ -4,6 +4,7 @@ import Link from 'next/link'; // IMPORT ESSENTIEL
 import { usePathname } from 'next/navigation'; // IMPORT ESSENTIEL
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu as MenuIcon, X, Search, ArrowRight } from 'lucide-react';
+import { User } from "lucide-react";
 
 const navLinks = [
   { name: "Accueil", href: "/", id: "home" },
@@ -157,45 +158,22 @@ export default function Header() {
             </AnimatePresence>
           </div>
 
-          {/* --- DESKTOP ACTIONS (recherche + Espace client à droite) --- */}
-          <div className="hidden lg:flex items-center gap-3">
-             <AnimatePresence mode="wait">
-               {isSearchOpen ? (
-                 <motion.button 
-                    key="close" 
-                    initial={{ rotate: -90, opacity: 0 }} 
-                    animate={{ rotate: 0, opacity: 1 }} 
-                    exit={{ rotate: 90, opacity: 0 }} 
-                    onClick={() => setIsSearchOpen(false)} 
-                    className="w-9 h-9 flex items-center justify-center rounded-full bg-white/80 border text-red-500 hover:bg-red-50 transition-colors"
-                 >
-                   <X size={18} />
-                 </motion.button>
-               ) : (
-                 <motion.button 
-                    key="search" 
-                    initial={{ scale: 0.8, opacity: 0 }} 
-                    animate={{ scale: 1, opacity: 1 }} 
-                    exit={{ scale: 0.8, opacity: 0 }} 
-                    onClick={() => setIsSearchOpen(true)} 
-                    className="w-9 h-9 flex items-center justify-center rounded-full bg-white/80 border border-gray-200 text-gray-500 hover:text-bouilly-gold hover:border-bouilly-gold transition-colors shadow-sm"
-                 >
-                   <Search size={16} />
-                 </motion.button>
-               )}
-             </AnimatePresence>
-             <Link
-               href="/espace-client"
-               className={`ml-1 px-4 py-2 rounded-full text-sm font-bold transition-all shrink-0 ${
-                 pathname === "/espace-client" || pathname === "/espace-habitant"
-                   ? "bg-white text-bouilly-green border-2 border-bouilly-green shadow-md"
-                   : "bg-white text-bouilly-green border border-gray-200 hover:bg-bouilly-green hover:text-white hover:border-bouilly-green"
-               }`}
-               aria-label="Accéder à l'espace citoyen"
-             >
-               Espace citoyen
-             </Link>
-          </div>
+         {/* --- DESKTOP ACTIONS (recherche + Espace client à droite) --- */}
+<div className="hidden lg:flex items-center gap-3">
+   <Link
+     href="/espace-client"
+     // Changement ici : 'w-10 h-10 flex items-center justify-center' pour faire un rond
+     className={`ml-1 w-10 h-10 flex items-center justify-center rounded-full transition-all duration-300 shrink-0 ${
+       pathname === "/espace-client" || pathname === "/espace-habitant"
+         ? "bg-bouilly-green text-white shadow-md border-2 border-transparent" // Actif : Fond vert, icône blanche
+         : "bg-white text-bouilly-green border border-gray-200 hover:bg-bouilly-green hover:text-white hover:border-bouilly-green shadow-sm" // Inactif : Fond blanc, icône verte
+     }`}
+     aria-label="Accéder à l'espace citoyen"
+     title="Accéder à l'espace citoyen"
+   >
+     <User size={20} strokeWidth={2.5} />
+   </Link>
+</div>
 
           {/* --- MOBILE TOGGLE --- */}
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-2 text-bouilly-darkGreen hover:bg-bouilly-green/5 rounded-full transition-colors">

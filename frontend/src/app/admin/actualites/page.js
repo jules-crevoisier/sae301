@@ -271,18 +271,25 @@ export default function AdminActualitesPage() {
             </div>
 
             {/* Navigation Tabs - Style unifié "Bouilly" */}
+            {/* Navigation Tabs */}
             <div className="flex p-1 bg-white/50 backdrop-blur-sm rounded-xl border border-gray-200 w-fit mb-8">
-              <Link
-                href="/admin"
-                className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold text-gray-500 hover:text-bouilly-green hover:bg-white transition-all"
-              >
-                <Users size={18} />
-                <span>Inscriptions</span>
-              </Link>
-              <div className="flex items-center gap-2 px-6 py-2.5 bg-bouilly-green text-white rounded-lg shadow-sm text-sm font-semibold">
-                <FileText size={18} />
-                <span>Actualités</span>
-              </div>
+                    <Link
+                    href="/admin"
+                    className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold text-gray-500 hover:text-bouilly-green hover:bg-white transition-all"
+                    >
+                    <Users size={18} />
+                    <span>Inscriptions</span>
+                    </Link>
+                    <div className="flex items-center gap-2 px-6 py-2.5 bg-bouilly-green text-white rounded-lg shadow-sm text-sm font-semibold">
+                    <FileText size={18} />
+                    <span>Actualités</span>
+                    </div>
+                    <Link
+                    href="/admin/evenements"
+                    className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold text-gray-500 hover:text-bouilly-green hover:bg-white transition-all"
+                    >
+                    <span>Événements</span>
+                    </Link>
             </div>
           </motion.div>
 

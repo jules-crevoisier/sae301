@@ -5,17 +5,17 @@ const HERITAGE_ITEMS = [
   {
     title: "Église Saint-Laurent",
     desc: "Un joyau de l'architecture religieuse locale, datant du XIIe siècle et remaniée au XVIe. Son clocher domine le village.",
-    img: "https://images.unsplash.com/photo-1548625361-eeca8d617930?auto=format&fit=crop&q=80&w=800" // Placeholder "Église de village"
+    img: "/images/église.jpg" // Placeholder "Église de village"
   },
   {
     title: "La Colline de Montaigu",
     desc: "Point culminant offrant des panoramas exceptionnels sur la plaine de Troyes et le début du Pays d'Othe. Un lieu prisé des randonneurs.",
-    img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=800" // Placeholder "Colline/Nature"
+    img: "/images/montegu.webp" // Placeholder "Colline/Nature"
   },
   {
     title: "Le Lavoir Communal",
     desc: "Témoin de la vie sociale d'autrefois, ce lavoir restauré rappelle l'importance de l'eau dans l'histoire du village.",
-    img: "https://images.unsplash.com/photo-1596395995878-838634567283?auto=format&fit=crop&q=80&w=800" // Placeholder "Pierre/Ancien"
+    img: "/images/lavoir.jpg" // Placeholder "Pierre/Ancien"
   }
 ];
 

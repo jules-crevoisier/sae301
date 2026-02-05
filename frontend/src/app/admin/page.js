@@ -302,38 +302,34 @@ export default function AdminPage() {
               </div>
             </div>
 
-            {/* Navigation Admin */}
-            <div className="flex items-center gap-3 mb-6">
-              <Link
-                href="/admin"
-                className="px-4 py-2 bg-bouilly-green text-white rounded-lg hover:bg-bouilly-darkGreen transition-colors flex items-center gap-2"
-              >
-                <Users size={18} />
-                <span>Inscriptions</span>
-              </Link>
-              <Link
-                href="/admin/actualites"
-                className="px-4 py-2 bg-white border-2 border-bouilly-green text-bouilly-green rounded-lg hover:bg-bouilly-green/10 transition-colors flex items-center gap-2"
-              >
-                <FileText size={18} />
-                <span>Actualités</span>
-              </Link>
-              <Link
-                href="/admin/evenements"
-                className="px-4 py-2 bg-white border-2 border-bouilly-green text-bouilly-green rounded-lg hover:bg-bouilly-green/10 transition-colors flex items-center gap-2"
-              >
-                <Calendar size={18} />
-                <span>Événements</span>
-              </Link>
-            </div>
-          </motion.div>
+                  <div className="flex p-1 bg-white/50 backdrop-blur-sm rounded-xl border border-gray-200 w-fit mb-8">
+                    <div className="flex items-center gap-2 px-6 py-2.5 bg-bouilly-green text-white rounded-lg shadow-sm text-sm font-semibold">
+                    <Users size={18} />
+                    <span>Inscriptions</span>
+                    </div>
+                    <Link
+                    href="/admin/actualites"
+                    className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold text-gray-500 hover:text-bouilly-green hover:bg-white transition-all"
+                    >
+                    <FileText size={18} />
+                    <span>Actualités</span>
+                    </Link>
+                    <Link
+                    href="/admin/evenements"
+                    className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold text-gray-500 hover:text-bouilly-green hover:bg-white transition-all"
+                    >
+                    <Calendar size={18} />
+                    <span>Événements</span>
+                    </Link>
+                  </div>
+                  </motion.div>
 
-          <AdminMessage 
-            message={message} 
-            onClose={() => setMessage({ type: '', text: '' })} 
-          />
+                  <AdminMessage 
+                  message={message} 
+                  onClose={() => setMessage({ type: '', text: '' })} 
+                  />
 
-          {/* Message si aucune inscription */}
+                  {/* Message si aucune inscription */}
           {!loading && registrations.length === 0 && oldInscriptions.length === 0 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
