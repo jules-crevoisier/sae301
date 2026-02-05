@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { API_URL } from '@/utils/apiConfig';
 
 export const STEPS = [
   { id: 1, title: 'Famille', desc: 'Coordonnées' },
@@ -178,7 +179,7 @@ export function useInscription() {
   // --- API LOGIC ---
   const calculatePricing = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/pricing/calculate', {
+      const response = await fetch(`${API_URL}/api/pricing/calculate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -227,7 +228,7 @@ export function useInscription() {
         })
       };
 
-      const response = await fetch('http://localhost:4000/api/inscription', {
+      const response = await fetch(`${API_URL}/api/inscription`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

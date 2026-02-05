@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { API_URL } from '@/utils/apiConfig';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import AdminHeader from '@/components/admin/AdminHeader';
@@ -54,7 +55,7 @@ export default function AdminPage() {
   // Charger les inscriptions complètes (nouvelle API)
   const fetchRegistrations = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/inscriptions');
+      const response = await fetch(`${API_URL}/api/inscriptions`);
       if (response.ok) {
         const data = await response.json();
         const registrationsData = data.data || data;
@@ -70,7 +71,7 @@ export default function AdminPage() {
   // Charger les anciennes inscriptions (ancienne API)
   const fetchOldInscriptions = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/cantine');
+      const response = await fetch(`${API_URL}/api/cantine`);
       if (response.ok) {
         const data = await response.json();
         setOldInscriptions(Array.isArray(data) ? data : []);
@@ -199,8 +200,8 @@ export default function AdminPage() {
 
     try {
       const endpoint = isOld 
-        ? `http://localhost:4000/api/cantine/${id.replace('old_', '')}`
-        : `http://localhost:4000/api/inscriptions/${id}`;
+        ? `${API_URL}/api/cantine/${id.replace('old_', '')}`
+        : `${API_URL}/api/inscriptions/${id}`;
       
       const response = await fetch(endpoint, {
         method: 'DELETE',

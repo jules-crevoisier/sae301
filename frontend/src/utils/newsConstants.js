@@ -18,6 +18,6 @@ export const NEWS_CATEGORIES_WITH_ALL = [
   ...NEWS_CATEGORIES
 ];
 
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+export { API_URL } from './apiConfig';
 
 export const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=600&q=80";

@@ -20,4 +20,4 @@ export const EVENT_CATEGORIES_WITH_ALL = [
   ...EVENT_CATEGORIES
 ];
 
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+export { API_URL } from './apiConfig';
