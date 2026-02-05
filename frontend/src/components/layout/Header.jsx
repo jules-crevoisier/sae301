@@ -6,8 +6,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu as MenuIcon, X, Search, ArrowRight } from 'lucide-react';
 
 const navLinks = [
-  { name: "Accueil", href: "/", id: "home" }, 
-  { name: "Mairie & Démarches", href: "/mairie", id: "mairie" }, 
+  { name: "Accueil", href: "/", id: "home" },
+  { name: "Mairie & Démarches", href: "/mairie", id: "mairie" },
   { name: "Inscription Cantine", href: "/inscription-cantine", id: "cantine" },
   { name: "Loisirs & Vie Locale", href: "/loisirs", id: "loisirs" },
   { name: "Découvrir la Commune", href: "/commune", id: "decouvrir" },
@@ -157,7 +157,7 @@ export default function Header() {
             </AnimatePresence>
           </div>
 
-          {/* --- DESKTOP ACTIONS --- */}
+          {/* --- DESKTOP ACTIONS (recherche + Espace client à droite) --- */}
           <div className="hidden lg:flex items-center gap-3">
              <AnimatePresence mode="wait">
                {isSearchOpen ? (
@@ -184,6 +184,17 @@ export default function Header() {
                  </motion.button>
                )}
              </AnimatePresence>
+             <Link
+               href="/espace-client"
+               className={`ml-1 px-4 py-2 rounded-full text-sm font-bold transition-all shrink-0 ${
+                 pathname === "/espace-client" || pathname === "/espace-habitant"
+                   ? "bg-white text-bouilly-green border-2 border-bouilly-green shadow-md"
+                   : "bg-white text-bouilly-green border border-gray-200 hover:bg-bouilly-green hover:text-white hover:border-bouilly-green"
+               }`}
+               aria-label="Accéder à l'espace citoyen"
+             >
+               Espace citoyen
+             </Link>
           </div>
 
           {/* --- MOBILE TOGGLE --- */}
@@ -222,13 +233,22 @@ export default function Header() {
                       <motion.div key={link.name} variants={linkVars}>
                         <Link 
                             href={link.href}
-                            className={`text-2xl font-title font-medium py-3 border-b border-gray-200/50 flex justify-between items-center group active:scale-95 transition-transform `}
+                            className="text-2xl font-title font-medium py-3 border-b border-gray-200/50 flex justify-between items-center group active:scale-95 transition-transform"
                         >
                              {link.name}
                              <ArrowRight size={20} className="text-gray-300 group-hover:text-bouilly-gold group-hover:translate-x-2 transition-all" />
                         </Link>
                       </motion.div>
                    ))}
+                   <motion.div variants={linkVars} className="pt-4 mt-4 border-t-2 border-bouilly-gold/30">
+                      <Link 
+                          href="/espace-client"
+                          className="flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-bouilly-green text-white font-title font-bold text-lg hover:bg-bouilly-darkGreen transition-colors"
+                      >
+                        Espace citoyen
+                        <ArrowRight size={20} />
+                      </Link>
+                   </motion.div>
                 </nav>
              </motion.div>
           </motion.div>

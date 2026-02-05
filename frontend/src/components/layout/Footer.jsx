@@ -1,5 +1,6 @@
 "use client";
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { MapPin, Phone, Mail, ArrowUp, Facebook, Instagram, ExternalLink, ChevronRight, Clock } from 'lucide-react';
 
 export default function Footer() {
@@ -81,6 +82,12 @@ export default function Footer() {
                 Accès Rapide <br/> & Urgences
              </h3>
              <ul className="space-y-3 text-sm">
+                <li>
+                    <Link href="/espace-client" className="flex items-center gap-2 text-bouilly-cream/70 hover:text-bouilly-gold transition-all group">
+                        <ChevronRight size={14} className="text-bouilly-gold opacity-50 group-hover:translate-x-1 transition-transform" />
+                        Espace citoyen
+                    </Link>
+                </li>
                 {['Les Numéros Utiles', 'Plan de Bouilly', 'Avis à la Population', 'Démarches en ligne', 'Menu Cantine'].map((item) => (
                     <li key={item}>
                         <a href="#" className="flex items-center gap-2 text-bouilly-cream/70 hover:text-bouilly-gold transition-all group">

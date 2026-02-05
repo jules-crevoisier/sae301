@@ -17,6 +17,7 @@ const childRoutes = require("./routes/child.routes");
 const pricingRoutes = require("./routes/pricing.routes");
 const newsRoutes = require("./routes/news.routes");
 const eventRoutes = require("./routes/event.routes");
+const residentRoutes = require("./routes/resident.routes");
 
 const app = express();
 
@@ -49,6 +50,7 @@ app.use("/api/children", childRoutes);
 app.use("/api/pricing", pricingRoutes);
 app.use("/api/news", newsRoutes);
 app.use("/api/events", eventRoutes);
+app.use("/api/resident", residentRoutes);
 
 // Route 404
 app.use((req, res) => {
