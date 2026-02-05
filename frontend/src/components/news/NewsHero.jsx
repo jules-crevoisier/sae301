@@ -33,7 +33,7 @@ export default function NewsHero() {
             </div>
 
             {/* Gros Titre (Typo Accueil) */}
-            <h1 className="font-title font-bold text-5xl md:text-7xl text-bouilly-green leading-[0.95] mb-8">
+            <h1 className="font-title font-bold text-5xl md:text-7xl text-bouilly-darkGreen leading-[0.95] mb-8">
               L'actualité à <br/>
               <span className="italic font-serif text-bouilly-gold relative inline-block">Bouilly</span>
             </h1>

@@ -1,18 +1,19 @@
 "use client";
 import { CalendarEvent } from './CalendarEvent';
 
-export const CalendarDay = ({ date, events = [], isCurrentMonth = true, isToday = false, onEventClick }) => {
+export const CalendarDay = ({ date, events = [], isCurrentMonth = true, isToday = false, onEventClick, reserveBarSpace = false, barHeight = 0 }) => {
   const dayNumber = date.getDate();
   const isWeekend = date.getDay() === 0 || date.getDay() === 6;
 
   return (
     <div
       className={`
-        min-h-[120px] p-3 flex flex-col gap-2 transition-colors relative group
+        min-h-[120px] p-3 flex flex-col gap-2 transition-colors relative group h-full
         ${isCurrentMonth ? 'bg-white' : 'bg-gray-50/50'}
         ${isWeekend && isCurrentMonth ? 'bg-bouilly-cream/10' : ''}
         hover:bg-gray-50
       `}
+      style={reserveBarSpace && barHeight ? { paddingTop: barHeight + 8 } : undefined}
     >
       <div className="flex justify-between items-start">
         <span

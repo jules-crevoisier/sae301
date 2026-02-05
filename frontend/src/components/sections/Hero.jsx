@@ -51,30 +51,30 @@ export default function Hero() {
               Un village authentique au cœur de l'Aube, alliant patrimoine, nature et dynamisme pour le bien-être de ses habitants.
             </motion.p>
 
-            {/* BOUTONS D'ACTION RAPIDE (UX++) */}
-            <motion.div variants={fadeUpVars} className="flex flex-wrap gap-4 w-full">
-               <button className="flex-1 bg-bouilly-green text-white px-6 py-4 rounded-xl shadow-lg shadow-bouilly-green/20 hover:bg-bouilly-darkGreen hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 group">
-                  <FileText size={20} className="text-bouilly-gold" />
-                  <div className="text-left">
-                     <span className="block text-[10px] uppercase opacity-70 tracking-wider">Accès Direct</span>
-                     <span className="block font-title font-bold text-sm">Mes Démarches</span>
-                  </div>
-                  <ArrowRight size={16} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
-               </button>
+            
+                  <motion.div variants={fadeUpVars} className="flex flex-wrap gap-4 w-full">
+                     <a href="/mairie" className="flex-1 bg-bouilly-green text-white px-6 py-4 rounded-xl shadow-lg shadow-bouilly-green/20 hover:bg-bouilly-darkGreen hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 group">
+                      <FileText size={20} className="text-bouilly-gold" />
+                      <div className="text-left">
+                       <span className="block text-[10px] uppercase opacity-70 tracking-wider">Accès Direct</span>
+                       <span className="block font-title font-bold text-sm">Mes Démarches</span>
+                      </div>
+                      <ArrowRight size={16} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                     </a>
 
-               <button className="flex-1 bg-white text-bouilly-green border border-bouilly-green/10 px-6 py-4 rounded-xl shadow-md hover:shadow-xl hover:border-bouilly-gold/50 transition-all duration-300 flex items-center justify-center gap-3 group">
-                  <Calendar size={20} className="text-bouilly-gold" />
-                  <div className="text-left">
-                     <span className="block text-[10px] uppercase opacity-70 tracking-wider">Événements</span>
-                     <span className="block font-title font-bold text-sm">Agenda</span>
-                  </div>
-               </button>
-            </motion.div>
+                     <a href="/mairie" className="flex-1 bg-white text-bouilly-green border border-bouilly-green/10 px-6 py-4 rounded-xl shadow-md hover:shadow-xl hover:border-bouilly-gold/50 transition-all duration-300 flex items-center justify-center gap-3 group">
+                      <Calendar size={20} className="text-bouilly-gold" />
+                      <div className="text-left">
+                       <span className="block text-[10px] uppercase opacity-70 tracking-wider">Événements</span>
+                       <span className="block font-title font-bold text-sm">Agenda</span>
+                      </div>
+                     </a>
+                  </motion.div>
 
-          </motion.div>
+                  </motion.div>
 
 
-          {/* --- COLONNE DROITE : COMPOSITION PHOTO (7 colonnes) --- */}
+                  {/* --- COLONNE DROITE : COMPOSITION PHOTO (7 colonnes) --- */}
           <div className="lg:col-span-7 relative h-[500px] lg:h-[600px] hidden lg:block">
             
             {/* IMAGE 1 : PRINCIPALE (Verticale - Architecture/Patrimoine) */}
@@ -86,7 +86,7 @@ export default function Hero() {
             >
                <img 
                  // Remplacez par une photo de la Mairie, de l'église ou d'une rue typique
-                 src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=85&w=800&auto=format&fit=crop" 
+                 src="/images/accueil2.png" 
                  alt="Architecture Bouilly" 
                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-[2s]"
                />

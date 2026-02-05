@@ -1,18 +1,16 @@
 "use client";
-import { useState } from 'react';
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Calendar } from "@/components/calendar/Calendar";
 import { motion } from "framer-motion";
-import { 
-  FileText, 
-  Users, 
-  Building2, 
-  ArrowRight, 
-  Download, 
-  Search 
+import { useEvents } from "@/hooks/useEvents";
+import {
+  FileText,
+  Users,
+  Building2,
+  ArrowRight,
 } from "lucide-react";
-import Link from 'next/link';
+import Link from "next/link";
 
 // Données fictives pour les démarches
 const DEMARCHES = [
@@ -22,11 +20,7 @@ const DEMARCHES = [
 ];
 
 export default function MairiePage() {
-  // État fictif pour le calendrier (à remplacer par ton useNews ou un hook useEvents)
-  const [events] = useState([
-    { id: 1, title: "Conseil Municipal", start_date: new Date().toISOString(), category: "CITOYENNETÉ", location: "Salle du Conseil" },
-    { id: 2, title: "Collecte Déchets", start_date: new Date(new Date().setDate(new Date().getDate() + 2)).toISOString(), category: "ENVIRONNEMENT" }
-  ]);
+  const { events, loading, error } = useEvents();
 
   return (
     <main className="min-h-screen bg-bouilly-cream flex flex-col">
@@ -82,7 +76,7 @@ export default function MairiePage() {
             </div>
 
             <Link 
-              href="/demarches" 
+              href="/espace-client" 
               className="group flex items-center gap-2 px-6 py-3 rounded-full bg-gray-50 text-bouilly-darkGreen font-bold text-sm hover:bg-bouilly-green hover:text-white transition-all duration-300 border border-gray-200 hover:border-bouilly-green shadow-sm"
             >
               Portail Citoyen
@@ -142,9 +136,14 @@ export default function MairiePage() {
               </h2>
               <div className="w-20 h-1 bg-bouilly-gold mx-auto rounded-full opacity-50"></div>
            </div>
+
+           {error && (
+             <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-center" role="alert">
+               {error}
+             </div>
+           )}
            
-           {/* Intégration du Calendrier */}
-           <Calendar events={events} />
+           <Calendar events={events} loading={loading} />
         </div>
       </section>
 

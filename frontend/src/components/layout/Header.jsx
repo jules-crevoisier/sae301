@@ -4,10 +4,11 @@ import Link from 'next/link'; // IMPORT ESSENTIEL
 import { usePathname } from 'next/navigation'; // IMPORT ESSENTIEL
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu as MenuIcon, X, Search, ArrowRight } from 'lucide-react';
+import { User } from "lucide-react";
 
 const navLinks = [
-  { name: "Accueil", href: "/", id: "home" }, 
-  { name: "Mairie & Démarches", href: "/mairie", id: "mairie" }, 
+  { name: "Accueil", href: "/", id: "home" },
+  { name: "Mairie & Démarches", href: "/mairie", id: "mairie" },
   { name: "Inscription Cantine", href: "/inscription-cantine", id: "cantine" },
   { name: "Loisirs & Vie Locale", href: "/loisirs", id: "loisirs" },
   { name: "Découvrir la Commune", href: "/commune", id: "decouvrir" },
@@ -157,34 +158,22 @@ export default function Header() {
             </AnimatePresence>
           </div>
 
-          {/* --- DESKTOP ACTIONS --- */}
-          <div className="hidden lg:flex items-center gap-3">
-             <AnimatePresence mode="wait">
-               {isSearchOpen ? (
-                 <motion.button 
-                    key="close" 
-                    initial={{ rotate: -90, opacity: 0 }} 
-                    animate={{ rotate: 0, opacity: 1 }} 
-                    exit={{ rotate: 90, opacity: 0 }} 
-                    onClick={() => setIsSearchOpen(false)} 
-                    className="w-9 h-9 flex items-center justify-center rounded-full bg-white/80 border text-red-500 hover:bg-red-50 transition-colors"
-                 >
-                   <X size={18} />
-                 </motion.button>
-               ) : (
-                 <motion.button 
-                    key="search" 
-                    initial={{ scale: 0.8, opacity: 0 }} 
-                    animate={{ scale: 1, opacity: 1 }} 
-                    exit={{ scale: 0.8, opacity: 0 }} 
-                    onClick={() => setIsSearchOpen(true)} 
-                    className="w-9 h-9 flex items-center justify-center rounded-full bg-white/80 border border-gray-200 text-gray-500 hover:text-bouilly-gold hover:border-bouilly-gold transition-colors shadow-sm"
-                 >
-                   <Search size={16} />
-                 </motion.button>
-               )}
-             </AnimatePresence>
-          </div>
+         {/* --- DESKTOP ACTIONS (recherche + Espace client à droite) --- */}
+<div className="hidden lg:flex items-center gap-3">
+   <Link
+     href="/espace-client"
+     // Changement ici : 'w-10 h-10 flex items-center justify-center' pour faire un rond
+     className={`ml-1 w-10 h-10 flex items-center justify-center rounded-full transition-all duration-300 shrink-0 ${
+       pathname === "/espace-client" || pathname === "/espace-habitant"
+         ? "bg-bouilly-green text-white shadow-md border-2 border-transparent" // Actif : Fond vert, icône blanche
+         : "bg-white text-bouilly-green border border-gray-200 hover:bg-bouilly-green hover:text-white hover:border-bouilly-green shadow-sm" // Inactif : Fond blanc, icône verte
+     }`}
+     aria-label="Accéder à l'espace citoyen"
+     title="Accéder à l'espace citoyen"
+   >
+     <User size={20} strokeWidth={2.5} />
+   </Link>
+</div>
 
           {/* --- MOBILE TOGGLE --- */}
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-2 text-bouilly-darkGreen hover:bg-bouilly-green/5 rounded-full transition-colors">
@@ -222,13 +211,22 @@ export default function Header() {
                       <motion.div key={link.name} variants={linkVars}>
                         <Link 
                             href={link.href}
-                            className={`text-2xl font-title font-medium py-3 border-b border-gray-200/50 flex justify-between items-center group active:scale-95 transition-transform `}
+                            className="text-2xl font-title font-medium py-3 border-b border-gray-200/50 flex justify-between items-center group active:scale-95 transition-transform"
                         >
                              {link.name}
                              <ArrowRight size={20} className="text-gray-300 group-hover:text-bouilly-gold group-hover:translate-x-2 transition-all" />
                         </Link>
                       </motion.div>
                    ))}
+                   <motion.div variants={linkVars} className="pt-4 mt-4 border-t-2 border-bouilly-gold/30">
+                      <Link 
+                          href="/espace-client"
+                          className="flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-bouilly-green text-white font-title font-bold text-lg hover:bg-bouilly-darkGreen transition-colors"
+                      >
+                        Espace citoyen
+                        <ArrowRight size={20} />
+                      </Link>
+                   </motion.div>
                 </nav>
              </motion.div>
           </motion.div>
